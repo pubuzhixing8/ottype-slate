@@ -1,9 +1,11 @@
 import { Component, ViewChild, TemplateRef, OnInit } from '@angular/core';
-import { createEditor, Text, Editor, Element, Transforms } from 'slate';
+import { createEditor, Editor, Element, Transforms, Operation } from 'slate';
 import { withHistory } from 'slate-history';
 import { withAngular } from 'slate-angular';
 import { DemoMarkTextComponent, MarkTypes } from '../components/text/text.component';
 import isHotkey from 'is-hotkey';
+import { withOTType } from '../plugins/with-ottype';
+import { initailizeShareDB } from '../plugins/sharedb';
 
 const SLATE_DEV_MODE_KEY = 'slate-dev';
 
@@ -21,7 +23,11 @@ const LIST_TYPES = ['numbered-list', 'bulleted-list']
     templateUrl: 'richtext.component.html'
 })
 export class DemoRichtextComponent implements OnInit {
-    value = initialValue;
+    value: any | undefined;
+
+    doc: any | undefined;
+
+    client = 0;
 
     toggleBlock = (format: any) => {
         const isActive = this.isBlockActive(format)
@@ -144,12 +150,17 @@ export class DemoRichtextComponent implements OnInit {
     @ViewChild('li', { read: TemplateRef, static: true })
     liTemplate!: TemplateRef<any>;
 
-    editor = withHistory(withAngular(createEditor()));
+    editor = withOTType(withHistory(withAngular(createEditor())));
 
     ngOnInit(): void {
         if (!localStorage.getItem(SLATE_DEV_MODE_KEY)) {
             console.log(`open dev mode use code：window.localStorage.setItem('${SLATE_DEV_MODE_KEY}', true);`);
         }
+        this.client = Math.floor((Math.random() * Math.pow(10, 10)));
+        initailizeShareDB('rooms', 'ottype-slate', 'ws://localhost:8080', (doc: any) => {
+            this.editor.doc = doc;
+            this.value = doc.data;
+        }, this.editor);
     }
 
     valueChange(value: Element[]) {
@@ -201,49 +212,3 @@ export class DemoRichtextComponent implements OnInit {
         }
     }
 }
-const initialValue = [
-    {
-        type: 'paragraph',
-        children: [
-            { text: 'This is editable ' },
-            { text: 'rich', bold: true },
-            { text: ' text, ' },
-            { text: 'much', bold: true, italic: true },
-            { text: ' better than a ' },
-            { text: '<textarea>', 'code-line': true },
-            { text: '!' }
-        ]
-    },
-    {
-        type: 'heading-one',
-        children: [{ text: 'This is h1 ' }]
-    },
-    {
-        type: 'heading-three',
-        children: [{ text: 'This is h3 ' }]
-    },
-    {
-        type: 'paragraph',
-        children: [
-            {
-                text: `Since it's rich text, you can do things like turn a selection of text `
-            },
-            { text: 'bold', bold: true },
-            {
-                text: ', or add a semantically rendered block quote in the middle of the page, like this:'
-            }
-        ]
-    },
-    {
-        type: 'block-quote',
-        children: [{ text: 'A wise quote.' }]
-    },
-    {
-        type: 'paragraph',
-        children: [{ text: 'Try it out for yourself!' }]
-    },
-    {
-        type: 'paragraph',
-        children: [{ text: '' }]
-    }
-];

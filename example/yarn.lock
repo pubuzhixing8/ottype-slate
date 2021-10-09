@@ -7009,10 +7009,10 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-slate-angular@1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/slate-angular/-/slate-angular-1.5.2.tgz#7a7531c005ccf59cd268915018f2074e48d7ee40"
-  integrity sha512-4ttsoWcSIr82sj6H2oNzNV7SnAbYWCEfjmJJUPf+JyHkBzAegx/fUaVUI+dIPmNNgjmpsvJ76BIAASS6tlxoaQ==
+slate-angular@1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/slate-angular/-/slate-angular-1.5.3.tgz#b6305d152f8b412b97dab149dd47dd3922a992db"
+  integrity sha512-tpc6skJIem0L9XB2Tobg6B0iga7eYKMLpzALzKbolSBPQLCOxeYheTQBR0Bl0rUZDD3SqEeK98UBwsmkzMzuAw==
   dependencies:
     debug "^4.1.1"
     direction "^1.0.3"
@@ -7029,10 +7029,10 @@ slate-history@0.62.0, slate-history@^0.62.0:
     immer "^7.0.0"
     is-plain-object "^3.0.0"
 
-slate@0.63.0:
-  version "0.63.0"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.63.0.tgz#63a50c45a8971d350a3ebeef25e10cd9fa5c7726"
-  integrity sha512-np24XIRsGbwVgKQR6DWLorTRQD7arUKiztCKsepBNiYtMxHqjR76i2nJA6pdGn6Vj9q88Afi9eYwCsfnzy2hBA==
+slate@0.65.3:
+  version "0.65.3"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.65.3.tgz#8178cdf28a10a3a4e6858b13bc2ffa7c3d003e7a"
+  integrity sha512-n8wa2MKyWhCMRyVkXuMf67MmOYSeoHnqS1qYivor+/y0puNvQgXDUjC7TJJqUjhVqJ6zg2IeuYd0WfSYdAJs4g==
   dependencies:
     "@types/esrever" "^0.2.0"
     esrever "^0.2.0"
