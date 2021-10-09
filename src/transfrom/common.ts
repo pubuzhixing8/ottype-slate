@@ -9,6 +9,7 @@ export function insertTextInsertText(op1: InsertTextOperation, op2: InsertTextOp
             return { ...op1, offset: op1.offset + op2.text.length };
         }
     }
+    return undefined;
 }
 
 export function insertTextRemoveText(op1: InsertTextOperation, op2: RemoveTextOperation, side: 'left' | 'right') {
@@ -25,6 +26,7 @@ export function insertTextRemoveText(op1: InsertTextOperation, op2: RemoveTextOp
         // TODO: 
         // ab[cd[[ef]gh]]
     }
+    return undefined;
 }
 
 export function insertTextSplitNode(op1: InsertTextOperation, op2: SplitNodeOperation, side: 'left' | 'right') {
@@ -46,6 +48,7 @@ export function insertTextSplitNode(op1: InsertTextOperation, op2: SplitNodeOper
             return { ...op1, ...newPoint }
         }
     }
+    return undefined;
 }
 
 export function removeTextRemoveText(op1: RemoveTextOperation, op2: RemoveTextOperation, side: 'left' | 'right') {
@@ -61,6 +64,7 @@ export function removeTextRemoveText(op1: RemoveTextOperation, op2: RemoveTextOp
             return null;
         }
     }
+    return undefined;
 }
 
 export function removeTextSplitNode(op1: RemoveTextOperation, op2: SplitNodeOperation, side: 'left' | 'right') {
@@ -93,4 +97,5 @@ export function removeTextSplitNode(op1: RemoveTextOperation, op2: SplitNodeOper
             return { ...op1, ...newPoint }
         }
     }
+    return undefined;
 }

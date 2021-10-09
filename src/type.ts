@@ -1,13 +1,14 @@
-import { Operation, Range, Path, Editor } from "slate";
+import { Operation, Range, Path, createEditor, Descendant, Editor } from "slate";
 import { transformInsertText } from "./transfrom/insert-text";
 import { transformRemoveText } from "./transfrom/remove-text";
 
 const type = {
     name: 'ottype-slate',
     uri: 'https://github.com/pubuzhixing8/ottype-slate',
+    editor: createEditor(),
 
-    create: function (editor: Editor) {
-      return editor;
+    create: function (data: Descendant[]) {
+        return data;
     },
 
     /**
@@ -18,13 +19,15 @@ const type = {
      * @param snapshot 
      * @param op 
      */
-    apply (editor: Editor, op: Operation): Editor {
+    apply (data: Descendant[], op: Operation): Descendant[] {
         // Apply doesn't make use of cursors. It might be a little simpler to
         // implement apply using them. The reason they aren't used here is merely
         // historical - the cursor implementation was written after apply() was
         // already working great.
-        editor.apply(op);
-        return editor;
+        Editor.setNormalizing(this.editor, false);
+        this.editor.children = data;
+        this.editor.apply(op);
+        return this.editor.children;
     },
 
     transform (op1: Operation, op2: Operation, side: 'left' | 'right'): Operation[] {
