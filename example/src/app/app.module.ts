@@ -6,6 +6,8 @@ import { SlateModule } from 'slate-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DemoButtonComponent } from './components/button/button.component';
+import { DemoCaretComponent } from './components/caret/caret.component';
+import { DemoCaretLeafComponent } from './components/leaf/leaf.component';
 import { DemoMarkTextComponent } from './components/text/text.component';
 import { DemoRichtextComponent } from './richtext/richtext.component';
 
@@ -14,7 +16,9 @@ import { DemoRichtextComponent } from './richtext/richtext.component';
     AppComponent,
     DemoButtonComponent,
     DemoMarkTextComponent,
-    DemoRichtextComponent
+    DemoRichtextComponent,
+    DemoCaretComponent,
+    DemoCaretLeafComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +27,8 @@ import { DemoRichtextComponent } from './richtext/richtext.component';
     SlateModule
   ],
   entryComponents: [
-    DemoMarkTextComponent
+    DemoMarkTextComponent,
+    DemoCaretLeafComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

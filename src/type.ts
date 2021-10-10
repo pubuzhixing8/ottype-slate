@@ -35,12 +35,12 @@ const type = {
     },
 
     transformPresence: function(range: Range, op: Operation, isOwnOp: boolean) {
-        if (!isOwnOp && Range.isCollapsed(range) && op.type === 'insert_text') {
+        if (!isOwnOp && range && Range.isCollapsed(range) && op.type === 'insert_text') {
             if (Path.equals(range.anchor.path, op.path) && range.anchor.offset === op.offset) {
                 return range;
             }
         }
-        return Range.transform(range, op);
+        return range && Range.transform(range, op);
     },
 };
 export { type };

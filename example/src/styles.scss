@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use './assets/materialicons/icon.css';
 @use 'slate-angular/styles/index.scss';
+@use './app/components/caret/caret.component.scss';
 
 .slate-editable-container {
     .code-line {

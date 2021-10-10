@@ -1,0 +1,11 @@
+<span contenteditable="false" *ngIf="decorate" class="demo-caret" [ngStyle]="{
+    background: decorate.color,
+    left: isForward ? '100%' : '-1px'
+}">
+    <span class="caret-content">
+        <span contenteditable="false" class="demo-cursor" [ngStyle]="{
+            background: decorate.color,
+            left: isForward ? '100%' : '0%'
+        }">&nbsp;{{decorate?.name}}&nbsp;</span>
+    </span>
+</span>

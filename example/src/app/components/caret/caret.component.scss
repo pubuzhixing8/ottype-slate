@@ -1,0 +1,24 @@
+.demo-caret {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    height: 1.2em;
+    width: 2px;
+    background-color: palevioletred;
+}
+
+.demo-cursor {
+    position: absolute;
+    top: -2;
+    pointer-events: none;
+    user-select: none;
+    transform: translateY(-100%);
+    font-size: 10px;
+    color: white;
+    background: palevioletred;
+    white-space: nowrap;
+}
+
+.caret-content {
+    position: relative;
+}

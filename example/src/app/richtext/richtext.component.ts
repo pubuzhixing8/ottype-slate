@@ -1,11 +1,14 @@
 import { Component, ViewChild, TemplateRef, OnInit } from '@angular/core';
-import { createEditor, Editor, Element, Transforms, Operation } from 'slate';
+import { createEditor, Editor, Element, Transforms, NodeEntry } from 'slate';
 import { withHistory } from 'slate-history';
 import { withAngular } from 'slate-angular';
 import { DemoMarkTextComponent, MarkTypes } from '../components/text/text.component';
 import isHotkey from 'is-hotkey';
-import { withOTType } from '../plugins/with-ottype';
+import { OTTypeEditor, withOTType } from '../plugins/with-ottype';
 import { initailizeShareDB } from '../plugins/sharedb';
+import { DemoCaretLeafComponent } from '../components/leaf/leaf.component';
+import { CursorInfo } from '../model/presence';
+import { createUser } from '../model/user';
 
 const SLATE_DEV_MODE_KEY = 'slate-dev';
 
@@ -152,15 +155,18 @@ export class DemoRichtextComponent implements OnInit {
 
     editor = withOTType(withHistory(withAngular(createEditor())));
 
+    decorate: (nodeEntry: NodeEntry) => CursorInfo[] = () => [];
+
     ngOnInit(): void {
         if (!localStorage.getItem(SLATE_DEV_MODE_KEY)) {
             console.log(`open dev mode use code：window.localStorage.setItem('${SLATE_DEV_MODE_KEY}', true);`);
         }
-        this.client = Math.floor((Math.random() * Math.pow(10, 10)));
-        initailizeShareDB('rooms', 'ottype-slate', 'ws://localhost:8080', (doc: any) => {
-            this.editor.doc = doc;
+        const user = createUser();
+        initailizeShareDB('rooms', 'ottype-slate', 'ws://localhost:8080', this.editor, user, (doc: any) => {
             this.value = doc.data;
-        }, this.editor);
+        }, (cursors: CursorInfo[]) => {
+            this.decorate = OTTypeEditor.generateCursorsDecorate(cursors);
+        });
     }
 
     valueChange(value: Element[]) {
@@ -198,6 +204,13 @@ export class DemoRichtextComponent implements OnInit {
     renderText = (text: any) => {
         if (text[MarkTypes.bold] || text[MarkTypes.italic] || text[MarkTypes.code] || text[MarkTypes.underline]) {
             return DemoMarkTextComponent;
+        }
+        return null;
+    }
+
+    renderLeaf = (text: any) => {
+        if (text.data) {
+            return DemoCaretLeafComponent;
         }
         return null;
     }
