@@ -15,7 +15,7 @@ export function transformInsertText(op1: InsertTextOperation, op2: Operation, si
         case 'remove_node':
             break;
         case 'split_node':
-            op = insertTextSplitNode(op1, op2, side);
+            op = insertTextSplitNode(op1, op2);
             break;
         case 'merge_node':
             break;

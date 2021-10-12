@@ -1,12 +1,11 @@
 import { Operation, RemoveTextOperation } from "slate";
-import { insertTextRemoveText, removeTextRemoveText, removeTextSplitNode } from "./common";
-import { invertSide } from "./utils";
+import { removeTextInsertText, removeTextRemoveText, removeTextSplitNode } from "./common";
 
 export function transformRemoveText(op1: RemoveTextOperation, op2: Operation, side: 'left' | 'right') {
     let op: Operation | undefined | null;
     switch (op2.type) {
         case 'insert_text':
-            op = insertTextRemoveText(op2, op1, invertSide(side));
+            op = removeTextInsertText(op1, op2, side);
             break;
         case 'remove_text':
             op = removeTextRemoveText(op1, op2, side);
@@ -16,7 +15,7 @@ export function transformRemoveText(op1: RemoveTextOperation, op2: Operation, si
         case 'remove_node':
             break;
         case 'split_node':
-            op = removeTextSplitNode(op1, op2, side);
+            op = removeTextSplitNode(op1, op2);
             break;
         case 'merge_node':
             break;

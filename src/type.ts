@@ -1,6 +1,8 @@
-import { Operation, Range, Path, createEditor, Descendant, Editor } from "slate";
+import { Operation, Range, createEditor, Descendant, Editor, Point, Path } from "slate";
 import { transformInsertText } from "./transfrom/insert-text";
 import { transformRemoveText } from "./transfrom/remove-text";
+import { transformSetNode } from "./transfrom/set_node";
+import { transformSplitNode } from "./transfrom/split_node";
 
 const type = {
     name: 'ottype-slate',
@@ -19,7 +21,7 @@ const type = {
      * @param snapshot 
      * @param op 
      */
-    apply (data: Descendant[], op: Operation): Descendant[] {
+    apply(data: Descendant[], op: Operation): Descendant[] {
         // Apply doesn't make use of cursors. It might be a little simpler to
         // implement apply using them. The reason they aren't used here is merely
         // historical - the cursor implementation was written after apply() was
@@ -30,23 +32,34 @@ const type = {
         return this.editor.children;
     },
 
-    transform (op1: Operation, op2: Operation, side: 'left' | 'right'): Operation[] {
-        return transform(op1, op2, side);
+    transform(op1: Operation, op2: Operation, side: 'left' | 'right'): Operation | null | undefined {
+        const _op1 = transform(op1, op2, side);
+        console.log(`-----transform-----: ${side}`)
+        console.log('op1: ', op1);
+        console.log('op2: ', op2);
+        console.log('op1`: ', _op1);
+        return _op1;
     },
 
-    transformPresence: function(range: Range, op: Operation, isOwnOp: boolean) {
-        if (!isOwnOp && range && Range.isCollapsed(range) && op.type === 'insert_text') {
+    transformPresence(range: Range, op: Operation, isOwnOp: boolean) {
+        if (!range || !range.anchor || !range.focus) {
+            return false;
+        }
+        if (!isOwnOp && Range.isCollapsed(range) && op.type === 'insert_text') {
             if (Path.equals(range.anchor.path, op.path) && range.anchor.offset === op.offset) {
                 return range;
             }
         }
-        return range && Range.transform(range, op);
-    },
+        for (const [point, key] of Range.points(range)) {
+            range[key] = Point.transform(point, op)!
+        }
+        return range;
+    }
 };
 export { type };
 
 export function transform(op1: Operation, op2: Operation, side: 'left' | 'right') {
-    let op: Operation | Operation[] | null | undefined;
+    let op: Operation | null | undefined;
     switch (op1.type) {
         case 'insert_text':
             op = transformInsertText(op1, op2, side);
@@ -59,27 +72,22 @@ export function transform(op1: Operation, op2: Operation, side: 'left' | 'right'
         case 'remove_node':
             break;
         case 'split_node':
+            op = transformSplitNode(op1, op2, side);
             break;
         case 'merge_node':
             break;
         case 'set_node':
+            op = transformSetNode(op1, op2, side);
             break;
-        case 'move_node': 
+        case 'move_node':
             break;
         case 'set_selection':
             break;
         default:
             break;
     }
-    if (op === null) {
-        return [];
-    }
     if (op === undefined) {
-        if (side === 'left') {
-            op = op2;
-        } else {
-            op = op1;
-        }
+        op = op1;
     }
-    return Array.isArray(op) ? op : [op];
+    return op;
 }
