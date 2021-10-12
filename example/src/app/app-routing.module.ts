@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DemoRichtextComponent } from './richtext/richtext.component';
+import { DemoRoomComponent } from './room/room.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DemoRichtextComponent
+    component: DemoRoomComponent
   }
 ];
 

@@ -1,4 +1,10 @@
-<div class="demo-rich-editor-wrapper">
+<div class="demo-client">
+    <div style="display: flex;-webkit-box-align: center;align-items: center;margin-bottom: 10px;">
+        <h4 style="margin: 0px auto 0px 0px;padding-right: 10px;">User: {{ user.name }}</h4>
+        <div style="display: flex; margin-top: 5px; margin-bottom: 5px;">
+            <button class="ottype-button" (click)="toggleOnline($event)">Go {{ online ? 'offline' : 'online'}}</button>
+        </div>
+    </div>
     <div class="demo-global-toolbar">
         <demo-button *ngFor="let toolbarItem of toolbarItems" [active]="toolbarItem.active(toolbarItem.format)"
             (onMouseDown)="toolbarItem.action(toolbarItem.format)"><span class="material-icons">{{ toolbarItem.icon

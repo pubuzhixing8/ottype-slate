@@ -39,6 +39,15 @@ export function initailizeShareDB(collection: string, id: string, url: string, e
         callback(doc);
     });
 
+    doc.disconnect = () => {
+        connection.close();
+    }
+
+    doc.connect = () => {
+        var socket = new ReconnectingWebSocket(url);
+        connection.bindToSocket(socket);
+    }
+
     // presence cursors
     var presence = doc.connection.getDocPresence(collection, id);
     presence.subscribe(function (error: any) {

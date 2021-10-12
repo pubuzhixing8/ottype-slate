@@ -8,7 +8,7 @@ import { OTTypeEditor, withOTType } from '../plugins/with-ottype';
 import { initailizeShareDB } from '../plugins/sharedb';
 import { DemoCaretLeafComponent } from '../components/leaf/leaf.component';
 import { CursorInfo } from '../model/presence';
-import { createUser } from '../model/user';
+import { createUser, User } from '../model/user';
 
 const SLATE_DEV_MODE_KEY = 'slate-dev';
 
@@ -22,15 +22,19 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
 @Component({
-    selector: 'demo-richtext',
-    templateUrl: 'richtext.component.html'
+    selector: 'demo-client',
+    templateUrl: 'client.component.html'
 })
-export class DemoRichtextComponent implements OnInit {
+export class DemoClientComponent implements OnInit {
     value: any | undefined;
 
     doc: any | undefined;
 
     client = 0;
+
+    user!: User;
+
+    online = true;
 
     toggleBlock = (format: any) => {
         const isActive = this.isBlockActive(format)
@@ -161,8 +165,9 @@ export class DemoRichtextComponent implements OnInit {
         if (!localStorage.getItem(SLATE_DEV_MODE_KEY)) {
             console.log(`open dev mode use code：window.localStorage.setItem('${SLATE_DEV_MODE_KEY}', true);`);
         }
-        const user = createUser();
-        initailizeShareDB('rooms', 'ottype-slate', 'ws://localhost:8080', this.editor, user, (doc: any) => {
+        this.user = createUser();
+        initailizeShareDB('rooms', 'ottype-slate', 'ws://localhost:8080', this.editor, this.user, (doc: any) => {
+            this.doc = doc;
             this.value = doc.data;
         }, (cursors: CursorInfo[]) => {
             this.decorate = OTTypeEditor.generateCursorsDecorate(cursors);
@@ -223,5 +228,14 @@ export class DemoRichtextComponent implements OnInit {
                 this.toggleMark(mark);
             }
         }
+    }
+
+    toggleOnline(event: MouseEvent) {
+        if (this.online) {
+            this.doc.disconnect();
+        } else {
+            this.doc.connect();
+        }
+        this.online = !this.online;
     }
 }

@@ -1,0 +1,13 @@
+<div class="demo-room">
+    <div style="display: flex;-webkit-box-align: center;align-items: center;margin-bottom: 10px;">
+        <h4 style="margin: 0px auto 0px 0px;padding-right: 10px;">
+            Room : <input type="text" disabled [value]="name" name="room" />
+        </h4>
+        <div style="display: flex; margin-top: 10px; margin-bottom: 10px;">
+            <button class="ottype-button" (click)="addClient($event)">Add random Client</button>
+        </div>
+    </div>
+    <div class="clients">
+        <demo-client class="client" *ngFor="let client of clients"></demo-client>
+    </div>
+</div>
