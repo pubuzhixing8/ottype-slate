@@ -10,7 +10,7 @@ const type = {
     editor: createEditor(),
 
     create: function (data: Descendant[]) {
-        return data;
+        return data ? data : [];
     },
 
     /**
