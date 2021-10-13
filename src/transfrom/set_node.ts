@@ -1,4 +1,4 @@
-import { Operation, SetNodeOperation } from "slate";
+import { Operation, Path, SetNodeOperation } from "slate";
 import { setNodeSplitNode } from "./common";
 
 export function transformSetNode(op1: SetNodeOperation, op2: Operation, side: 'left' | 'right') {
@@ -18,6 +18,7 @@ export function transformSetNode(op1: SetNodeOperation, op2: Operation, side: 'l
         case 'merge_node':
             break;
         case 'set_node':
+            op = setNodeSetNode(op1, op2, side);
             break;
         case 'move_node':
             break;
@@ -27,4 +28,18 @@ export function transformSetNode(op1: SetNodeOperation, op2: Operation, side: 'l
             break;
     }
     return op;
+}
+
+/**
+ * done
+ * @param op1 
+ * @param op2 
+ * @param side 
+ * @returns 
+ */
+export function setNodeSetNode(op1: SetNodeOperation, op2: SetNodeOperation, side: 'left' | 'right') {
+    if (Path.equals(op1.path, op2.path) && side === 'right') {
+        return { ...op1, ...op2 };
+    }
+    return op1;
 }
