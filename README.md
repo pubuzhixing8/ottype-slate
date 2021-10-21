@@ -12,9 +12,8 @@ yarn install
 // 构建 ottype-slate
 npm run build
 
-// 运行示例
+// 安装示例依赖
 cd example
-
 yarn install
 
 // 前端启动
