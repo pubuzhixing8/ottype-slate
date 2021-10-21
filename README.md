@@ -7,24 +7,19 @@
 # 💻 开发
 ```
 // 安装 ottype-slate 依赖
-
 yarn install
 
 // 构建 ottype-slate
-
 npm run build
 
 // 运行示例
-
 cd example
 
 yarn install
 
 // 前端启动
-
 npm run start
 
 // 后端启动
-
 npm run start:serve
 ```
