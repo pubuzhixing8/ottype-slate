@@ -23,11 +23,10 @@ export function insertTextRemoveText(op1: InsertTextOperation, op2: RemoveTextOp
         if (op1.offset >= op2.offset + op2.text.length) {
             return { ...op1, offset: op1.offset - op2.text.length }
         }
-        if (op1.offset >= op2.offset && op1.offset < op2.offset + op2.text.length && side === 'left') {
-            // todo
-            return op1;
+        if (op1.offset > op2.offset && op1.offset < op2.offset + op2.text.length && side) {
+            return { ...op1, text: '' };
         }
-    }
+    }   
     return undefined;
 }
 
@@ -37,12 +36,13 @@ export function removeTextInsertText(op1: RemoveTextOperation, op2: InsertTextOp
             return { ...op1, offset: op1.offset + op2.text.length }
         }
 
-        if (op1.offset < op2.offset && op1.offset + op1.text.length > op2.offset && side === 'left') {
-            // todo
+        if (op1.offset < op2.offset && op1.offset + op1.text.length > op2.offset && side) {
+            return { ...op1, text: `${op1.text.substr(0, op2.offset - op1.offset)}${op2.text}${op1.text.substring(op2.offset - op1.offset)}` };
         }
     }
     return undefined;
 }
+
 /**
  * refactor
  * @param op1 

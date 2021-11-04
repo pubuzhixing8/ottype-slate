@@ -6,7 +6,7 @@ var WS = require('ws');
 var WebSocketJSONStream = require('@teamwork/websocket-json-stream');
 
 ShareDB.types.register(OTTypeSlate.type);
-var backend = new ShareDB({presence: true});
+var backend = new ShareDB({ presence: true });
 createDoc(startServer);
 
 // Create initial document then fire callback
@@ -19,7 +19,12 @@ function createDoc(callback: () => void) {
             const children = [{
                 type: 'paragraph',
                 children: [
-                    { text: 'OTType Slate' }
+                    { text: 'ottype slate' }
+                ]
+            }, {
+                type: 'paragraph',
+                children: [
+                    { text: 'slate + sharedb are so cool' }
                 ]
             }] as any;
             doc.create(children, 'ottype-slate', callback);
